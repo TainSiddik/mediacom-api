@@ -3,6 +3,11 @@ import { prisma } from '../lib/prisma.js';
 import { createSlug } from '../utils/slug.js';
 import { createUserNumber } from '../utils/userNumber.js';
 
+export const getAllUsers = async () => {
+  const users = await prisma.user.findMany();
+  return users;
+};
+
 export const createNewUser = async (data) => {
   const hashPassword = await bcrypt.hash(data.password, 10);
   const baseSlug = createSlug(data.name);
