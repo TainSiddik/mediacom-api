@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  Admin
+  Instructor
+  Student
+}
+
+enum userStatus {
+  Active
+  Completed
+  Suspended
+  Resigned
+}
+
+enum Gender {
+  Male
+  Female
+}
+
+model User {
+  id String @id @default(uuid())
+  name String @db.VarChar(200)
+  slug String @unique @db.VarChar(250)
+  hp String @unique @db.VarChar(20)
+  password String @db.VarChar(250)
+  role Role
+  status userStatus @default(Active)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  admin Admin?
+  instructor Instructor?
+  student Student?
+
+  @@map("table_users")
+}
+
+model Admin {
+  id String @id @default(uuid())
+  user_id String @unique
+  admin_number String @unique @db.VarChar(100)
+  birthPlace String? @db.VarChar(100)
+  birthDate DateTime?
+  gender Gender?
+  religion String? @db.VarChar(100)
+  address String? @db.Text
+  housePhone String? @db.VarChar(20)
+  education String? @db.VarChar(100)
+  specialization String?  @db.VarChar(100)
+  imageUrl String? @db.VarChar(250)
+  updated_at DateTime @default(now()) @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Restrict)
+
+  @@map("table_admins")
+}
+
+model Instructor {
+  id String @id @default(uuid())
+  user_id String @unique
+  instructor_number String @unique @db.VarChar(100)
+  birthPlace String? @db.VarChar(100)
+  birthDate DateTime?
+  gender Gender?
+  religion String? @db.VarChar(100)
+  address String? @db.Text
+  housePhone String? @db.VarChar(20)
+  education String? @db.VarChar(100)
+  specialization String?  @db.VarChar(100)
+  imageUrl String? @db.VarChar(250)
+  updated_at DateTime @default(now()) @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Restrict)
+
+  @@map("table_instructors")
+}
+
+model Student {
+  id String @id @default(uuid())
+  user_id String @unique
+  student_number String @unique @db.VarChar(100)
+  birthPlace String? @db.VarChar(100)
+  birthDate DateTime?
+  gender Gender?
+  religion String? @db.VarChar(100)
+  father String? @db.VarChar(100)
+  mother String? @db.VarChar(100)
+  housePhone String? @db.VarChar(20)
+  address String? @db.Text
+  major String? @db.VarChar(100)
+  imageUrl String? @db.VarChar(250)
+  updated_at DateTime @default(now()) @updatedAt
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Restrict)
+
+  @@map("table_students")
+}

@@ -1,0 +1,20 @@
+{
+  "name": "mediacom-api",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "@prisma/adapter-mariadb": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1",
+    "prisma": "^7.10.0"
+  }
+}
